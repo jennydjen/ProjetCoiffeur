@@ -24,7 +24,7 @@ public interface GenericDAO<T> {
 	 * @param id
 	 * @return
 	 */
-	public T delete(long id);
+	public void delete(long id);
 	
 	
 
