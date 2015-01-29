@@ -1,13 +1,14 @@
 package com.example.projetcoiffeur.DAO;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.projetcoiffeur.entity.Service;
 
 public class ServiceDAO implements GenericDAO<Service>{
+	
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public Service create(Service t) {
