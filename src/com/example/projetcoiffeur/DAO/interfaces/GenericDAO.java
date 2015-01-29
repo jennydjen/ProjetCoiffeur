@@ -1,4 +1,4 @@
-package com.example.projetcoiffeur.DAO;
+package com.example.projetcoiffeur.DAO.interfaces;
 
 public interface GenericDAO<T> {
 	/**
