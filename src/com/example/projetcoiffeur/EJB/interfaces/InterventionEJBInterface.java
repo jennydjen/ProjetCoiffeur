@@ -7,38 +7,12 @@ import com.example.projetcoiffeur.entity.Intervention;
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 
 /**
- * Interface de l'EJB
+ * Interface de l'EJB avec les méthodes spécifiques à l'intervention + 
+ * Hérite de GenericEJBInterface pour avoir les méthodes communes
  * @author Jenny
  *
  */
-public interface InterventionEJBInterface {
-
-	/**
-	 * Créer une intervention
-	 * @param intervention Intervention : l'intervention qu'on veut créer
-	 * @return Intervention
-	 */
-	public Intervention create(Intervention intervention);
-
-	/**
-	 * Mettre à jour une intervention
-	 * @param intervention Intervention : l'intervention qu'on veut mettre à jour
-	 * @return Intervention
-	 */
-	public Intervention update(Intervention intervention);
-
-	/**
-	 * Trouver une intervention selon son ID
-	 * @param id long : id de l'intervention
-	 * @return Intervention
-	 */
-	public Intervention find(long id);
-
-	/**
-	 * Supprimer une intervention
-	 * @param id long : id de l'intervention
-	 */
-	public void delete(long id);
+public interface InterventionEJBInterface extends GenericEJBInterface<Intervention>{
 
 	/**
 	 * Trouver toutes les interventions
