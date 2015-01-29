@@ -13,7 +13,7 @@ import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
  *
  */
 public interface InterventionEJBInterface extends GenericEJBInterface<Intervention>{
-
+	
 	/**
 	 * Trouver toutes les interventions
 	 * @return List<Intervention>
