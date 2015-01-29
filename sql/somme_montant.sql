@@ -5,4 +5,3 @@ create table somme_montant(
 	prix double, 
 	CONSTRAINT fk_intervention FOREIGN KEY (id_intervention) REFERENCES Intervention(id),
 	CONSTRAINT fk_service FOREIGN KEY (id_service) REFERENCES Service(id));
-)

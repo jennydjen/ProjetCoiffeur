@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
@@ -22,6 +24,7 @@ public class Intervention {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String commentaire;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_intervention;
 
 	@Enumerated(EnumType.ORDINAL)
