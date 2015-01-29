@@ -18,7 +18,7 @@ public class Service {
 	private double prix;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private TypeCompte type_service;
+	private TypeCompte type_service; 
 	
 	
 	public Long getId() {
