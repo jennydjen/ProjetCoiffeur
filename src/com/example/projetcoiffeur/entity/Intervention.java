@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,6 +20,12 @@ import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 @Entity
+@NamedQueries(value = {
+		@NamedQuery(name="Intervention.findAll", query="Select c from Intervention c"),
+		@NamedQuery(name="Intervention.findAllbyDate", query = "Select c from Intervention c where c.date_intervention = ?1"),
+		@NamedQuery(name="Intervention.findAllByClient", query ="Select c from Intervention c where c.client = ?1")
+		
+})
 public class Intervention {
 
 	@Id

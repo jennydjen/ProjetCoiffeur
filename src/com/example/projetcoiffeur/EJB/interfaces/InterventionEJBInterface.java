@@ -3,6 +3,7 @@ package com.example.projetcoiffeur.EJB.interfaces;
 import java.util.Date;
 import java.util.List;
 
+import com.example.projetcoiffeur.entity.Client;
 import com.example.projetcoiffeur.entity.Intervention;
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 
@@ -31,7 +32,7 @@ public interface InterventionEJBInterface extends GenericEJBInterface<Interventi
 	 * @param id_client long : id du client
 	 * @return List<Intervention>
 	 */
-	public List<Intervention> findAllByClient(long id_client);
+	public List<Intervention> findAllByClient(Client c);
 	
 	/**
 	 * Modifier l'etat de l'intervention
