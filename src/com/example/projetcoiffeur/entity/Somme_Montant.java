@@ -1,10 +1,10 @@
 package com.example.projetcoiffeur.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Somme_Montant {
@@ -13,10 +13,10 @@ public class Somme_Montant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "id_intervention")
+	@JoinColumn(name = "id_intervention")
 	private Intervention intervention;
 
-	@Column(name = "id_service")
+	@JoinColumn(name = "id_service")
 	private Service service;
 
 	private double prix;
