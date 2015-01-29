@@ -1,7 +1,7 @@
 create table Intervention(
 	id bigint not null generated always AS IDENTITY constraint id_pkintervention Primary key, 
 	id_client bigint,
-	commenaire varchar(250), 
+	commentaire varchar(250), 
 	date_intervention TIMESTAMP, 
 	paiement int,  
 	etat int,
@@ -9,4 +9,6 @@ create table Intervention(
 	
 ALTER TABLE Intervention ADD COLUMN etat int;
 ALTER TABLE Intervention DROP COLUMN date_intervention;
-ALTER TABLE Intervention ADD COLUMN date_intervention TIMESTAMP; 
+ALTER TABLE Intervention ADD COLUMN date_intervention TIMESTAMP;
+ALTER TABLE Intervention DROP COLUMN commentaire;
+ALTER TABLE Intervention ADD COLUMN commentaire varchar(250);

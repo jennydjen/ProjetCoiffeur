@@ -19,7 +19,7 @@ INSERT INTO SERVICE (description, prix, type_service)
 	('Coupe garçon - 14 ans', 10, 703),
 	('Vente produits', 0, 701);
 	
-INSERT INTO INTERVENTION (id_client, commenaire, date_intervention, paiement, etat)
+INSERT INTO INTERVENTION (id_client, commentaire, date_intervention, paiement, etat)
 	VALUES(1, 'Super', '2014-08-10 15:23:00.123', 0, 0),
 	(2, 'Super', '2014-11-15 12:23:00.123', 0, 0),
 	(3, 'Super', '2014-12-20 11:23:00.123', 0, 0),
