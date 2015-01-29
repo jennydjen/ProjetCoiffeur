@@ -16,6 +16,7 @@ public class Service {
 	private Long id;
 	private String description;
 	private double prix;
+	private boolean etat;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private TypeCompte type_service;
@@ -35,4 +36,17 @@ public class Service {
 	public void setPrix(double prix) {
 		this.prix = prix;
 	}
+	public boolean isEtat() {
+		return etat;
+	}
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+	public TypeCompte getType_service() {
+		return type_service;
+	}
+	public void setType_service(TypeCompte type_service) {
+		this.type_service = type_service;
+	}
+	
 }

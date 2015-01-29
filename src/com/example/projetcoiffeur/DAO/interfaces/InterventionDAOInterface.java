@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.projetcoiffeur.entity.Intervention;
 
 
+/* test */
 public interface InterventionDAOInterface extends GenericDAO<Intervention>{
 
 	//Retourne la liste des interventions

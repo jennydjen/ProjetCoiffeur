@@ -1,5 +1,6 @@
 package com.example.projetcoiffeur.DAO;
 
+/* test */
 import java.util.List;
 
 import javax.persistence.EntityManager;
