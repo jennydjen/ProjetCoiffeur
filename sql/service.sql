@@ -3,3 +3,5 @@ CREATE TABLE Service (
 	description varchar(50), 
 	prix double, 
 	type_service int);   
+	
+	ALTER table Service add column etat boolean; 
