@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.example.projetcoiffeur.DAO.interfaces.GenericDAO;
 import com.example.projetcoiffeur.entity.Service;
 
 public class ServiceDAO implements GenericDAO<Service>{

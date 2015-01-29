@@ -5,9 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.example.projetcoiffeur.DAO.interfaces.ClientDAOInteface;
+import com.example.projetcoiffeur.DAO.interfaces.GenericDAO;
 import com.example.projetcoiffeur.entity.Client;
 
-public class ClientDAO implements GenericDAO<Client>{
+public class ClientDAO implements ClientDAOInteface{
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -23,6 +25,7 @@ public class ClientDAO implements GenericDAO<Client>{
 	
 	@Override
 	public Client update(Client t) {
+		
 		return this.em.merge(t);
 	}
 
@@ -39,12 +42,26 @@ public class ClientDAO implements GenericDAO<Client>{
 		
 	}
 	
+	/**
+	 * Changement de l'état du client ( actif / Inactif ) 
+	 * @param id
+	 */
+	public void changementEtatClient(long id){
+		Client client = find(id);
+		//1 = inactif
+		//0 = actif
+		if (client.isInactif()){
+			client.setInactif(false);
+		}else{
+			client.setInactif(true);
+		}
+	}
+	
 	public List<Client> findAllContact(){
 		return em.createNamedQuery("client.findAll", Client.class).getResultList();
 		
 	}
-	
-	
+
 	
 	
 }
