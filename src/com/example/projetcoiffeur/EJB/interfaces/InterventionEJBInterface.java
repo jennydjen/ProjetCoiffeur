@@ -1,5 +1,6 @@
 package com.example.projetcoiffeur.EJB.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.projetcoiffeur.entity.Intervention;
@@ -43,10 +44,17 @@ public interface InterventionEJBInterface {
 	 * @return List<Intervention>
 	 */
 	public List<Intervention> findAll();
+		
+	/**
+	 * Trouver les interventions par date
+	 * @return List<Intervention>
+	 */
+	public List<Intervention> findOfTheDay(Date date);
 	
-	public List<Intervention> findAllByEtat();
-	
-	public List<Intervention> findOfTheDay();
-	
+	/**
+	 * Trouver les interventions pour un client donné
+	 * @param id_client long
+	 * @return List<Intervention>
+	 */
 	public List<Intervention> findAllByClient(long id_client);
 }

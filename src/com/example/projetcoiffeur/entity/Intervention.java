@@ -10,53 +10,71 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 @Entity
 public class Intervention {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String commentaire;
 	private Date date_intervention;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private Type_Paiement paiement;
-	
-	@Column(name="id_client")
+
+	@Column(name = "id_client")
 	private Client client;
+
+	@Enumerated(EnumType.ORDINAL)
+	private State_Intervention etat;
 	
+	public Intervention() {
+	}
+
 	public Client getClient() {
 		return client;
 	}
+
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
 	public Type_Paiement getPaiement() {
 		return paiement;
 	}
+
 	public void setPaiement(Type_Paiement paiement) {
 		this.paiement = paiement;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	public String getCommentaire() {
 		return commentaire;
 	}
+
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}
+
 	public Date getDate_intervention() {
 		return date_intervention;
 	}
+
 	public void setDate_intervention(Date date_intervention) {
 		this.date_intervention = date_intervention;
 	}
-	
+
+	public State_Intervention getEtat() {
+		return etat;
+	}
+
+	public void setEtat(State_Intervention etat) {
+		this.etat = etat;
+	}
 }

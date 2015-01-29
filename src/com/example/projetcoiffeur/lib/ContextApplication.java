@@ -1,5 +1,6 @@
 package com.example.projetcoiffeur.lib;
 
+import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
@@ -171,6 +172,24 @@ public class ContextApplication {
 			result = "Espèce";
 			break;
 		}
+		return result;
+	}
+
+	public static String getLibelleStateIntervention(State_Intervention state) {
+		String result = "";
+
+		switch (state) {
+		case A_FAIRE:
+			result = "A faire";
+			break;
+		case ANNULE:
+			result = "Annulé";
+			break;
+		case FAIT:
+			result = "Fait";
+			break;
+		}
+
 		return result;
 	}
 }
