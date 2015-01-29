@@ -4,4 +4,4 @@ CREATE TABLE Service (
 	prix double, 
 	type_service int);   
 	
-	ALTER table Service add column etat boolean; 
+	ALTER table Service add column etat int; 
