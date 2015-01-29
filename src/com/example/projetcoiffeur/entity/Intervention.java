@@ -1,6 +1,7 @@
 package com.example.projetcoiffeur.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
@@ -30,7 +32,10 @@ public class Intervention {
 
 	@Enumerated(EnumType.ORDINAL)
 	private State_Intervention etat;
-	
+
+	@OneToMany(mappedBy = "intervention")
+	private List<Somme_Montant> services;
+
 	public Intervention() {
 	}
 
@@ -76,5 +81,9 @@ public class Intervention {
 
 	public void setEtat(State_Intervention etat) {
 		this.etat = etat;
+	}
+
+	public List<Somme_Montant> getServices() {
+		return services;
 	}
 }
