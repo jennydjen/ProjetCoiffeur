@@ -16,11 +16,11 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
-	private String nom;
+	private String name;
 	private String prenom;
 	
 	private String adresse;
-	private int telephone;
+	private String telephone;
 	private boolean inactif;
 	public long getId() {
 		return id;
@@ -28,11 +28,11 @@ public class Client {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getPrenom() {
 		return prenom;
@@ -46,10 +46,10 @@ public class Client {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
-	public int getTelephone() {
+	public String getTelephone() {
 		return telephone;
 	}
-	public void setTelephone(int telephone) {
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
 	public boolean isInactif() {
