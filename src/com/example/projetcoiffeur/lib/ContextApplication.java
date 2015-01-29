@@ -1,24 +1,25 @@
 package com.example.projetcoiffeur.lib;
 
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
+import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 public class ContextApplication {
 
 	public static String LOGIN = "admin";
 	public static String PASSWORD = "admin";
-	
-	public static String getIntitulé(TypeCompte type){
+
+	public static String getIntituléTypeCompte(TypeCompte type) {
 		String result = "";
-		switch(type){
+		switch (type) {
 		// DEPENSES
 		// Depense de type Achat
-		case MATIERE_PREMIERE_FOURNITURE :
+		case MATIERE_PREMIERE_FOURNITURE:
 			result = "Matières premières – Fournitures";
 			break;
 		case FOURNITURES_NON_STOCKAGE:
 			result = "Fournitures non stockables (eau, électricité)";
 			break;
-		case FOURNITURES_ENTRETIEN :
+		case FOURNITURES_ENTRETIEN:
 			result = "Fournitures d'entretien et de petit équipement";
 			break;
 		case AUTRE_FOURNITURES:
@@ -46,7 +47,7 @@ public class ContextApplication {
 		case DOCUMENTATION:
 			result = "Documentation";
 			break;
-		case DIVERS :
+		case DIVERS:
 			result = "Divers";
 			break;
 		// Depense de type Autre service exterieurs
@@ -99,7 +100,7 @@ public class ContextApplication {
 		case PERSONNEL_BENEVOLE:
 			result = "Personnel bénévole";
 			break;
-		
+
 		// RECETTES
 		// Recette de type Ventes
 		case VENTE_MARCHANDISES:
@@ -152,6 +153,22 @@ public class ContextApplication {
 			break;
 		case DONS_NATURE:
 			result = "Dons en nature";
+			break;
+		}
+		return result;
+	}
+
+	public static String getLibelleTypePaiment(Type_Paiement type) {
+		String result = "";
+		switch (type) {
+		case CARTE_BANCAIRE:
+			result = "Carte bancaire";
+			break;
+		case CHEQUE:
+			result = "Chèque";
+			break;
+		case LIQUIDE:
+			result = "Espèce";
 			break;
 		}
 		return result;
