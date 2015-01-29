@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.projetcoiffeur.entity.Client;
 
-public interface ClientDAOInteface extends GenericDAO<Client>{
+public interface ClientDAOInterface extends GenericDAO<Client>{
 	/**
 	 * Changement de l'état du client ( actif / Inactif ) 
 	 * @param id

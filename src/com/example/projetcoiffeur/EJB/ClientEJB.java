@@ -5,14 +5,15 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.example.projetcoiffeur.DAO.interfaces.ClientDAOInteface;
+import com.example.projetcoiffeur.DAO.interfaces.ClientDAOInterface;
 import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.entity.Client;
 
 @Stateless
 public class ClientEJB implements ClientEJBInterface {
+	
 	@Inject
-	private ClientDAOInteface clientDAO;
+	private ClientDAOInterface clientDAO;
 
 	@Override
 	public Client create(Client t) {

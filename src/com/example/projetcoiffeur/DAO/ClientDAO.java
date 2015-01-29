@@ -5,11 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.example.projetcoiffeur.DAO.interfaces.ClientDAOInteface;
+import com.example.projetcoiffeur.DAO.interfaces.ClientDAOInterface;
 import com.example.projetcoiffeur.DAO.interfaces.GenericDAO;
 import com.example.projetcoiffeur.entity.Client;
 
-public class ClientDAO implements ClientDAOInteface{
+public class ClientDAO implements ClientDAOInterface{
 	@PersistenceContext
 	private EntityManager em;
 	
