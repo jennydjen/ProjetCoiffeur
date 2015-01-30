@@ -66,8 +66,7 @@ public class InterventionList extends CustomComponent implements View{
 			}
 			
 		});
-		
-		
+			
 		List<Intervention> interventions = ejbIntervention.findAll();
 		
 		interventionTable = new InterventionTable(CollectionContainer.fromBeans(interventions));

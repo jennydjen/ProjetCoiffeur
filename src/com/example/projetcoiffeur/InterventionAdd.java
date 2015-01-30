@@ -123,10 +123,6 @@ public class InterventionAdd extends CustomComponent implements View {
 		});
 		
 		
-		
-		
-		
-		
 	}
 
 	@Override
