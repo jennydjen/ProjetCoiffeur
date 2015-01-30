@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -16,6 +18,10 @@ import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 @Entity
+@NamedQueries(value={
+		@NamedQuery(name="operation.findAll", query="SELECT O FROM Operation O WHERE O.date BETWEEN ?1 AND ?2 ORDER BY O.date"),
+		@NamedQuery(name="operation.findByType", query="SELECT O FROM Operation O WHERE O.type = ?1 AND O.date BETWEEN ?2 AND ?3")
+})
 public class Operation {
 
 	@Id
