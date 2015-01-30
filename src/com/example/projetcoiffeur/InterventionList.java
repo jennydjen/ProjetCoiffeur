@@ -12,6 +12,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
@@ -32,11 +33,22 @@ public class InterventionList extends CustomComponent implements View{
 		MenuView sample = new MenuView();
 		MenuBar menu = sample.getMenu();
 		mainLayout.addComponent(menu);
-		Label lab = new Label("Ecran des Interventions");
+		Label lab = new Label("Ecran des Interventions2");
 		mainLayout.addComponent(lab);
 		
 		Button button = new Button("test");		
 		mainLayout.addComponent(button);
+		
+		button.addClickListener(new Button.ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
 		
 		List<Intervention> interventions = ejbIntervention.findAll();
 		
@@ -45,6 +57,8 @@ public class InterventionList extends CustomComponent implements View{
 		
 		
 	}
+	
+
 
 	@Override
 	public void enter(ViewChangeEvent event) {
