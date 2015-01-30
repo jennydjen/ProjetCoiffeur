@@ -2,23 +2,34 @@ package com.example.projetcoiffeur;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import org.vaadin.data.collectioncontainer.CollectionContainer;
+
 import com.example.projetcoiffeur.EJB.interfaces.OperationEJBInterface;
+import com.example.projetcoiffeur.entity.Operation;
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
+import com.example.projetcoiffeur.lib.ContextApplication;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Item;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.themes.ValoTheme;
 
 @CDIView(value = "operationList")
 public class OperationListView extends CustomComponent implements View {
@@ -34,6 +45,7 @@ public class OperationListView extends CustomComponent implements View {
 		Date finDate = calendar.getTime();
 
 		VerticalLayout mainLayout = new VerticalLayout();
+		mainLayout.setMargin(true);
 		this.setCompositionRoot(mainLayout);
 
 		MenuView sample = new MenuView();
@@ -46,26 +58,61 @@ public class OperationListView extends CustomComponent implements View {
 		HorizontalLayout layoutDate = new HorizontalLayout();
 		mainLayout.addComponent(layoutDate);
 
-		Label labelDu = new Label(" Du ");
-		layoutDate.addComponent(labelDu);
+		FormLayout layoutDateDebut = new FormLayout();
+		layoutDate.addComponent(layoutDateDebut);
 
-		PopupDateField datePickerDebut = new PopupDateField();
+		PopupDateField datePickerDebut = new PopupDateField("Du");
 		datePickerDebut.setValue(debutDate);
-		layoutDate.addComponent(datePickerDebut);
+		layoutDateDebut.addComponent(datePickerDebut);
 
-		Label labelAu = new Label(" au ");
-		layoutDate.addComponent(labelAu);
+		FormLayout layoutDateFin = new FormLayout();
+		layoutDate.addComponent(layoutDateFin);
 
-		PopupDateField datePickerFin = new PopupDateField();
+		PopupDateField datePickerFin = new PopupDateField(" au");
 		datePickerFin.setValue(finDate);
-		layoutDate.addComponent(datePickerFin);
+		layoutDateFin.addComponent(datePickerFin);
+
+		FormLayout layoutBouton = new FormLayout();
+		layoutDate.addComponent(layoutBouton);
 
 		Button buttonGenerer = new Button("Générer");
-		layoutDate.addComponent(buttonGenerer);
+		buttonGenerer.setEnabled(false);
+		layoutBouton.addComponent(buttonGenerer);
+
+		Button buttonAjouter = new Button("Ajouter opération");
+		buttonAjouter.addClickListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				getUI().getNavigator().navigateTo("ajouterOperation");
+			}
+		});
+		mainLayout.addComponent(buttonAjouter);
+
+		TabSheet tabSheet = new TabSheet();
+		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
+		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+
+		tabSheet.addTab(getCompteResultat(ejbOperation, debutDate, finDate),
+				"Récap");
+		tabSheet.addTab(getTabOperation(ejbOperation, debutDate, finDate),
+				"Les opérations");
+
+		mainLayout.addComponent(tabSheet);
+
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private Layout getCompteResultat(OperationEJBInterface ejbOperation,
+			Date debutDate, Date finDate) {
+		VerticalLayout compteResultatLayout = new VerticalLayout();
 
 		// Un tableau contenant les types et sommes de toutes les dépenses sur
 		// la période données
-		Table tableDepense = new Table();
+		Table tableDepense = new Table("Dépenses");
 		tableDepense.addContainerProperty("Compte", Integer.class, null);
 		tableDepense.addContainerProperty("Intitulé du compte", String.class,
 				null);
@@ -81,13 +128,23 @@ public class OperationListView extends CustomComponent implements View {
 							finDate));
 		}
 
-		mainLayout.addComponent(tableDepense);
+		compteResultatLayout.addComponent(tableDepense);
+		return compteResultatLayout;
 	}
 
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+	private Component getTabOperation(OperationEJBInterface ejbOperation,
+			Date debutDate, Date finDate) {
+		VerticalLayout operationLayout = new VerticalLayout();
 
+		List<Operation> operations = ejbOperation.findAll(debutDate, finDate);
+
+		Table tableOperation = new Table();
+		tableOperation.setContainerDataSource(CollectionContainer
+				.fromBeans(operations));
+
+		operationLayout.addComponent(tableOperation);
+
+		return operationLayout;
 	}
 
 }
