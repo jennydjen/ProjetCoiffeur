@@ -4,30 +4,34 @@ import javax.inject.Inject;
 
 import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.EJB.interfaces.InterventionEJBInterface;
+import com.example.projetcoiffeur.EJB.interfaces.ServiceEJBInterface;
 import com.example.projetcoiffeur.entity.Intervention;
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 import com.vaadin.cdi.CDIView;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.UI;
 
 @CDIView(value="InterventionAdd")
 public class InterventionAdd extends CustomComponent implements View {
 	
 	@Inject
-	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb ){
+	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb, ServiceEJBInterface serviceejb){
 		
 		FormLayout layout = new FormLayout();
 		layout.setMargin(true);
@@ -56,6 +60,29 @@ public class InterventionAdd extends CustomComponent implements View {
 		ComboBox comboClient = new ComboBox("Client");
 		comboClient.addItems(clientejb.findAllContact());
 		layout.addComponent(comboClient);
+		
+		TwinColSelect Twinservice = new TwinColSelect();
+		Twinservice.addItems(serviceejb.findAllService());
+		Twinservice.setNullSelectionAllowed(true);
+		Twinservice.setMultiSelect(true);
+		Twinservice.setImmediate(true);
+		Twinservice.setLeftColumnCaption("Services Disponibles");
+		Twinservice.setRightColumnCaption("Services Séléctionnés");
+		
+		Twinservice.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChange(final ValueChangeEvent event) {
+                final String valueString = String.valueOf(event.getProperty()
+                        .getValue());
+                Notification.show("Value changed:", valueString,
+                        Type.TRAY_NOTIFICATION);
+            }
+
+
+        });
+	    
+		layout.addComponent(Twinservice);
+		
 		
 		Button buttonAdd = new Button("Ajouter");
 		layout.addComponent(buttonAdd);
