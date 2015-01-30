@@ -43,7 +43,7 @@ public class LoginView extends CustomComponent implements View{
 			public void buttonClick(ClickEvent event) {
 				if(textLogin.getValue().equals(ContextApplication.LOGIN) 
 						&& textPassword.getValue().equals(ContextApplication.PASSWORD)){
-					getUI().getNavigator().navigateTo("clientList");
+					getUI().getNavigator().navigateTo("interventionJour");
 				} else {
 					labelLoginPasswordIncorrect.setVisible(true);
 				}

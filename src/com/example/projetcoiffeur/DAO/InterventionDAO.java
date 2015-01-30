@@ -1,6 +1,7 @@
 package com.example.projetcoiffeur.DAO;
 
 /* test 2*/
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +52,13 @@ public class InterventionDAO implements InterventionDAOInterface {
 	}
 	@Override
 	public List<Intervention> findOfTheDay(Date d){		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(d);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		
 		TypedQuery<Intervention> query = em.createNamedQuery("Intervention.findAllbyDate", Intervention.class);
 		query.setParameter(1, d);
+		query.setParameter(2, calendar.getTime());
 		
 		return query.getResultList();	
 	}

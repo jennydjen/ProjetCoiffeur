@@ -22,7 +22,7 @@ import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 @Entity
 @NamedQueries(value = {
 		@NamedQuery(name="Intervention.findAll", query="Select c from Intervention c"),
-		@NamedQuery(name="Intervention.findAllbyDate", query = "Select c from Intervention c where c.date_intervention = ?1"),
+		@NamedQuery(name="Intervention.findAllbyDate", query = "Select c from Intervention c where c.date_intervention between ?1 and ?2"),
 		@NamedQuery(name="Intervention.findAllByClient", query ="Select c from Intervention c where c.client = ?1")
 		
 })
