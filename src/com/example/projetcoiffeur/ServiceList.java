@@ -11,10 +11,13 @@ import com.example.projetcoiffeur.entity.Service;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 
 @CDIView (value="serviceList")
 public class ServiceList extends CustomComponent implements View {
@@ -32,6 +35,20 @@ public class ServiceList extends CustomComponent implements View {
 		Label lab = new Label("Ecran des services");
 		mainLayout.addComponent(lab);
 		
+		Button button = new Button("Ajouter nouveau Service");
+		mainLayout.addComponent(button);
+		
+		button.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+				UI.getCurrent().getNavigator().navigateTo("serviceAdd");
+			}
+		});
+		
+		
 		List<Service> services = serviceListe.findAllService();
 		serviceTable = new ServiceTable(CollectionContainer.fromBeans(services));
 		mainLayout.addComponent(serviceTable);
@@ -39,5 +56,10 @@ public class ServiceList extends CustomComponent implements View {
 	@Override
 	public void enter (ViewChangeEvent event){
 		
+	}
+	public ServiceTable getTable(ServiceEJBInterface serviceliste){
+		VerticalLayout layoutList = new VerticalLayout();
+		
+		return serviceTable;
 	}
 }
