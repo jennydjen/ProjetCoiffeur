@@ -33,13 +33,26 @@ public class InterventionList extends CustomComponent implements View{
 		MenuView sample = new MenuView();
 		MenuBar menu = sample.getMenu();
 		mainLayout.addComponent(menu);
-		Label lab = new Label("Ecran des Interventions2");
+		Label lab = new Label("Ecran des Interventions");
 		mainLayout.addComponent(lab);
 		
-		Button button = new Button("test");		
-		mainLayout.addComponent(button);
+		Button buttonajouter = new Button("Ajouter");		
+		mainLayout.addComponent(buttonajouter);
 		
-		button.addClickListener(new Button.ClickListener(){
+		buttonajouter.addClickListener(new Button.ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		Button buttonmodifier = new Button("Modifier");		
+		mainLayout.addComponent(buttonmodifier);
+		
+		buttonmodifier.addClickListener(new Button.ClickListener(){
 
 			@Override
 			public void buttonClick(ClickEvent event) {
