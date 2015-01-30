@@ -45,6 +45,7 @@ public class ClientAdd extends CustomComponent implements View{
 		layout.addComponent(textAdresse);
 		
 		TextField textPhone = new TextField("Telephone");
+		textPhone.setMaxLength(17);
 		layout.addComponent(textPhone);
 		
 		Button button = new Button("Ajouter");
