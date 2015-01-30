@@ -4,13 +4,10 @@ import javax.inject.Inject;
 
 import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.EJB.interfaces.InterventionEJBInterface;
-import com.example.projetcoiffeur.EJB.interfaces.ServiceEJBInterface;
 import com.example.projetcoiffeur.entity.Intervention;
 import com.example.projetcoiffeur.entity.enumeration.State_Intervention;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 import com.vaadin.cdi.CDIView;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -24,7 +21,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.UI;
 
 @CDIView(value="InterventionAdd")
