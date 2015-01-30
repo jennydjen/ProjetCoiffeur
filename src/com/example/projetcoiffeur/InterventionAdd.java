@@ -32,31 +32,28 @@ public class InterventionAdd extends CustomComponent implements View {
 		FormLayout layout = new FormLayout();
 		layout.setMargin(true);
 		setCompositionRoot(layout);
-		Label lab = new Label("<h2>Ajout d'une intervention</h2>", ContentMode.HTML);
+		Label lab = new Label("<h2>Nouvelle intervention</h2>", ContentMode.HTML);
 		layout.addComponent(lab);	
 		
 		TextField textCommentaire = new TextField("Commentaire");
 		layout.addComponent(textCommentaire);
 		
-		Label labelDu = new Label("Date Intervention:");
-		layout.addComponent(labelDu);
-		
-		PopupDateField dateintervention = new PopupDateField("Date :");
+		PopupDateField dateintervention = new PopupDateField("Date");
 		layout.addComponent(dateintervention);
 		
-		ComboBox comboetat = new ComboBox();
+		ComboBox comboetat = new ComboBox("Etat");
 		comboetat.addItem(State_Intervention.A_FAIRE);
 		comboetat.addItem(State_Intervention.ANNULE);
 		comboetat.addItem(State_Intervention.FAIT);
 		layout.addComponent(comboetat);
 		
-		ComboBox comboTypePai = new ComboBox();
+		ComboBox comboTypePai = new ComboBox("Moyen de Paiement");
 		comboTypePai.addItem(Type_Paiement.CARTE_BANCAIRE);
 		comboTypePai.addItem(Type_Paiement.CHEQUE);
 		comboTypePai.addItem(Type_Paiement.LIQUIDE);
 		layout.addComponent(comboTypePai);
 		
-		ComboBox comboClient = new ComboBox();
+		ComboBox comboClient = new ComboBox("Client");
 		comboClient.addItems(clientejb.findAllContact());
 		layout.addComponent(comboClient);
 		

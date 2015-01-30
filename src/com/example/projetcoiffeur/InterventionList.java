@@ -14,6 +14,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.UI;
@@ -36,9 +37,12 @@ public class InterventionList extends CustomComponent implements View{
 		mainLayout.addComponent(menu);
 		Label lab = new Label("Ecran des Interventions");
 		mainLayout.addComponent(lab);
+	
 		
+		HorizontalLayout layouthoz = new HorizontalLayout();
+		mainLayout.addComponent(layouthoz);
 		Button buttonajouter = new Button("Ajouter");		
-		mainLayout.addComponent(buttonajouter);
+		layouthoz.addComponent(buttonajouter);
 		
 		buttonajouter.addClickListener(new Button.ClickListener(){
 
@@ -51,7 +55,7 @@ public class InterventionList extends CustomComponent implements View{
 		});
 		
 		Button buttonmodifier = new Button("Modifier");		
-		mainLayout.addComponent(buttonmodifier);
+		layouthoz.addComponent(buttonmodifier);
 		
 		buttonmodifier.addClickListener(new Button.ClickListener(){
 
