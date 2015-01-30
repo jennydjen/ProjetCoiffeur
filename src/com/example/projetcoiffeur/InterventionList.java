@@ -11,6 +11,7 @@ import com.example.projetcoiffeur.entity.Intervention;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
@@ -34,10 +35,14 @@ public class InterventionList extends CustomComponent implements View{
 		Label lab = new Label("Ecran des Interventions");
 		mainLayout.addComponent(lab);
 		
+		Button button = new Button("test");		
+		mainLayout.addComponent(button);
+		
 		List<Intervention> interventions = ejbIntervention.findAll();
 		
 		interventionTable = new InterventionTable(CollectionContainer.fromBeans(interventions));
 		mainLayout.addComponent(interventionTable);
+		
 		
 	}
 
