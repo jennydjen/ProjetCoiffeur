@@ -26,6 +26,11 @@ import com.vaadin.ui.UI;
 @CDIView(value="InterventionAdd")
 public class InterventionAdd extends CustomComponent implements View {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Inject
 	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb){
 		
