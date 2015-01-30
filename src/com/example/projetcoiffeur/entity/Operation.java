@@ -19,8 +19,8 @@ import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 @Entity
 @NamedQueries(value={
-		@NamedQuery(name="operation.findAll", query="SELECT O FROM Operation O WHERE O.date BETWEEN ?1 AND ?2 ORDER BY O.date"),
-		@NamedQuery(name="operation.findByType", query="SELECT O FROM Operation O WHERE O.type = ?1 AND O.date BETWEEN ?2 AND ?3")
+		@NamedQuery(name="operation.findAll", query="SELECT O FROM Operation O WHERE O.date_operation BETWEEN ?1 AND ?2 ORDER BY O.date_operation"),
+		@NamedQuery(name="operation.findByType", query="SELECT O FROM Operation O WHERE O.type_operation = ?1 AND O.date_operation BETWEEN ?2 AND ?3")
 })
 public class Operation {
 
@@ -29,15 +29,15 @@ public class Operation {
 	private long id;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private TypeCompte type;
+	private TypeCompte type_operation;
 	
 	private String description;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	private Date date_operation;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private Type_Paiement paiement;
+	private Type_Paiement type_paiment;
 	
 	private String numeroFacture;
 	
@@ -54,11 +54,11 @@ public class Operation {
 	}
 	
 	public TypeCompte getType() {
-		return type;
+		return type_operation;
 	}
 
 	public void setType(TypeCompte type) {
-		this.type = type;
+		this.type_operation = type;
 	}
 
 	public String getDescription() {
@@ -70,19 +70,19 @@ public class Operation {
 	}
 
 	public Date getDate() {
-		return date;
+		return date_operation;
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.date_operation = date;
 	}
 
 	public Type_Paiement getPaiement() {
-		return paiement;
+		return type_paiment;
 	}
 
 	public void setPaiement(Type_Paiement paiement) {
-		this.paiement = paiement;
+		this.type_paiment = paiement;
 	}
 
 	public String getNumeroFacture() {

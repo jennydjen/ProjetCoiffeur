@@ -1,79 +1,91 @@
 package com.example.projetcoiffeur.entity.enumeration;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public enum TypeCompte {
 	// DEPENSES
 	// Depense de type Achat
-	MATIERE_PREMIERE_FOURNITURE (601),
-	FOURNITURES_NON_STOCKAGE (6061),
+	MATIERE_PREMIERE_FOURNITURE(601), 
+	FOURNITURES_NON_STOCKAGE(6061), 
 	FOURNITURES_ENTRETIEN(6063),
 	AUTRE_FOURNITURES(6068),
-	ACHAT_ETURE_PRESTATION_SERVICE(604),
+	ACHAT_ETURE_PRESTATION_SERVICE(604), 
 	ACHAT_DE_MARCHANDISES(607),
+	
 	// Depense de type Service Exterieures
 	SOUS_TRAITANCE_GENERAL(611),
-	LOCATIONS(613),
-	ENTRETIEN_REPARATION(615),
-	ASSURANCE(616),
-	DOCUMENTATION(6181),
+	LOCATIONS(613), 
+	ENTRETIEN_REPARATION(615), 
+	ASSURANCE(616), 
+	DOCUMENTATION(6181), 
 	DIVERS(618),
-	// Depense de type Autre service exterieurs
-	RENUMERATION_INTERMEDIAIRE_HONORAIRE(622),
-	PUBLICITE_PUBLICATION_RELATION_PUBLIQUES(623),
-	DEPLACEMENT_MISSIONS_RECEPTION(625),
-	FRAIS_POSTAUX_FRAI_TELECOMMUNICATION(626),
-	SERVICES_BANCAIRES_AUTRE(627),
-	// Depense de type Impots taxes et versement assimilés
-	IMPOTS_TAXE_RENUMERATION(631),
-	AUTRE_IMPOTS_TAXE(635),
-	// Depense de type Charges de personnel
-	RENUMERATION_DU_PERSONNEL(641),
-	CHARGES_SECURITE_SOCIALE(645),
-	AUTRES_CHARGES_PERSONNEL(647),
-	// Depense de type Autre charges de gestion courante
-	DROITS_AUTEURS_REPRODUCTION(6516),
-	COTISATIONS(6586),
-	// Depense de type Emplois des contributions volontaires en nature
-	SECOURS_NATURE(861),
-	MISE_DISPOSITION_GRATUIRE_BIEN_SERVICE(862),
-	PERSONNEL_BENEVOLE(863),
 	
+	// Depense de type Autre service exterieurs
+	RENUMERATION_INTERMEDIAIRE_HONORAIRE(622), 
+	PUBLICITE_PUBLICATION_RELATION_PUBLIQUES(623),
+	DEPLACEMENT_MISSIONS_RECEPTION(625), 
+	FRAIS_POSTAUX_FRAI_TELECOMMUNICATION(626), 
+	SERVICES_BANCAIRES_AUTRE(627),
+	
+	// Depense de type Impots taxes et versement assimilés
+	IMPOTS_TAXE_RENUMERATION(631), 
+	AUTRE_IMPOTS_TAXE(635),
+	
+	// Depense de type Charges de personnel
+	RENUMERATION_DU_PERSONNEL(641), 
+	CHARGES_SECURITE_SOCIALE(645), 
+	AUTRES_CHARGES_PERSONNEL(647),
+	
+	// Depense de type Autre charges de gestion courante
+	DROITS_AUTEURS_REPRODUCTION(6516), 
+	COTISATIONS(6586),
+	
+	// Depense de type Emplois des contributions volontaires en nature
+	SECOURS_NATURE(861), 
+	MISE_DISPOSITION_GRATUIRE_BIEN_SERVICE(862), 
+	PERSONNEL_BENEVOLE(863),
+
 	// RECETTES
 	// Recette de type Ventes
-	VENTE_MARCHANDISES(701),
-	VENTE_PRODUITS_FINIS(702),
+	VENTE_MARCHANDISES(701), 
+	VENTE_PRODUITS_FINIS(702), 
 	VENTE_PRESTATION_SERVICE(703),
+	
 	// Recette de type Subventions d'exploitation
-	ETAT(741),
-	REGION(742),
-	DEPARTEMENT(743),
-	COMMUNES(744),
+	ETAT(741), 
+	REGION(742), 
+	DEPARTEMENT(743), 
+	COMMUNES(744), 
 	ORGANISMES_SOCIAUX(745),
-	EUROPE(746),
+	EUROPE(746), 
 	CNASEA(747),
 	AUTRES_SUBVENTIONS(748),
+	
 	// Recette de type Autre produits de gestion courante,
 	COLLECTE(754),
 	COTISATION(756),
+	
 	// Recette de type Contributions volontaires en nature
-	BENEVOLAT(871),
-	PRESTATIONS_NATURE(872),
+	BENEVOLAT(871), 
+	PRESTATIONS_NATURE(872), 
 	DONS_NATURE(873);
-	
+
 	private int id_compte;
-	
+
 	private TypeCompte(int compte) {
 		this.id_compte = compte;
 	}
-	
-	public boolean isRecette(){
+
+	public boolean isRecette() {
 		boolean result;
-		switch(this){		
+		switch (this) {
 		// RECETTES
 		// Recette de type Ventes
 		case VENTE_MARCHANDISES:
 		case VENTE_PRODUITS_FINIS:
 		case VENTE_PRESTATION_SERVICE:
-		// Recette de type Subventions d'exploitation
+			// Recette de type Subventions d'exploitation
 		case ETAT:
 		case REGION:
 		case DEPARTEMENT:
@@ -82,10 +94,10 @@ public enum TypeCompte {
 		case EUROPE:
 		case CNASEA:
 		case AUTRES_SUBVENTIONS:
-		// Recette de type Autre produits de gestion courante,
+			// Recette de type Autre produits de gestion courante,
 		case COLLECTE:
 		case COTISATION:
-		// Recette de type Contributions volontaires en nature
+			// Recette de type Contributions volontaires en nature
 		case BENEVOLAT:
 		case PRESTATIONS_NATURE:
 		case DONS_NATURE:
@@ -95,14 +107,14 @@ public enum TypeCompte {
 			result = false;
 			break;
 		}
-		
+
 		return result;
 	}
-	
+
 	public int getId_compte() {
 		return id_compte;
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "";
@@ -252,5 +264,82 @@ public enum TypeCompte {
 			break;
 		}
 		return result;
+	}
+
+	public static List<TypeCompte> getTypeDepenses() {
+		List<TypeCompte> results = new LinkedList<TypeCompte>();
+
+		// Depense de type Achat
+		results.add(TypeCompte.MATIERE_PREMIERE_FOURNITURE);
+		results.add(TypeCompte.FOURNITURES_NON_STOCKAGE);
+		results.add(TypeCompte.FOURNITURES_ENTRETIEN);
+		results.add(TypeCompte.AUTRE_FOURNITURES);
+		results.add(TypeCompte.ACHAT_ETURE_PRESTATION_SERVICE);
+		results.add(TypeCompte.ACHAT_DE_MARCHANDISES);
+		
+		// Depense de type Service Exterieures
+		results.add(TypeCompte.SOUS_TRAITANCE_GENERAL);
+		results.add(TypeCompte.LOCATIONS);
+		results.add(TypeCompte.ENTRETIEN_REPARATION);
+		results.add(TypeCompte.ASSURANCE);
+		results.add(TypeCompte.DOCUMENTATION);
+		results.add(TypeCompte.DIVERS);
+		
+		// Depense de type Autre service exterieurs
+		results.add(TypeCompte.RENUMERATION_INTERMEDIAIRE_HONORAIRE);
+		results.add(TypeCompte.PUBLICITE_PUBLICATION_RELATION_PUBLIQUES);
+		results.add(TypeCompte.DEPLACEMENT_MISSIONS_RECEPTION);
+		results.add(TypeCompte.FRAIS_POSTAUX_FRAI_TELECOMMUNICATION);
+		results.add(TypeCompte.SERVICES_BANCAIRES_AUTRE);
+		
+		// Depense de type Impots taxes et versement assimilés
+		results.add(TypeCompte.IMPOTS_TAXE_RENUMERATION);
+		results.add(TypeCompte.AUTRE_IMPOTS_TAXE);
+		
+		// Depense de type Charges de personnel
+		results.add(TypeCompte.RENUMERATION_DU_PERSONNEL);
+		results.add(TypeCompte.CHARGES_SECURITE_SOCIALE);
+		results.add(TypeCompte.AUTRES_CHARGES_PERSONNEL);
+		
+		// Depense de type Autre charges de gestion courante
+		results.add(TypeCompte.DROITS_AUTEURS_REPRODUCTION);
+		results.add(TypeCompte.COTISATIONS);
+		
+		// Depense de type Emplois des contributions volontaires en nature
+		results.add(TypeCompte.SECOURS_NATURE);
+		results.add(TypeCompte.MISE_DISPOSITION_GRATUIRE_BIEN_SERVICE);
+		results.add(TypeCompte.PERSONNEL_BENEVOLE);
+
+		return results;
+	}
+	
+	public static List<TypeCompte> getTypeRecettes(){
+		List<TypeCompte> results = new LinkedList<TypeCompte>();
+		
+		// Recette de type Ventes
+		results.add(TypeCompte.VENTE_MARCHANDISES);
+		results.add(TypeCompte.VENTE_PRODUITS_FINIS);
+		results.add(TypeCompte.VENTE_PRESTATION_SERVICE);
+		
+		// Recette de type Subventions d'exploitation
+		results.add(TypeCompte.ETAT);
+		results.add(TypeCompte.REGION);
+		results.add(TypeCompte.DEPARTEMENT);
+		results.add(TypeCompte.COMMUNES);
+		results.add(TypeCompte.ORGANISMES_SOCIAUX);
+		results.add(TypeCompte.EUROPE);
+		results.add(TypeCompte.CNASEA);
+		results.add(TypeCompte.AUTRES_SUBVENTIONS);
+		
+		// Recette de type Autre produits de gestion courante,
+		results.add(TypeCompte.COLLECTE);
+		results.add(TypeCompte.COTISATION);
+		
+		// Recette de type Contributions volontaires en nature
+		results.add(TypeCompte.BENEVOLAT);
+		results.add(TypeCompte.PRESTATIONS_NATURE);
+		results.add(TypeCompte.DONS_NATURE);
+		
+		return results;
 	}
 }
