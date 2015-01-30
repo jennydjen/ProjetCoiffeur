@@ -44,10 +44,19 @@ public class MenuView extends CustomComponent implements View {
 			}
 		};
 		
+		MenuBar.Command interventionList = new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				// TODO Auto-generated method stub
+				UI.getCurrent().getNavigator().navigateTo("interventionList");
+			}
+		};
+		
 		sample.addItem("Interventions du jour", InterventionJour);
-		sample.addItem("Liste Utilisateur", commandList);
-		sample.addItem("Liste Service", commandService);
-		sample.addItem("Compte de résultat", compta);		
+		sample.addItem("Liste Interventions", interventionList);
+		sample.addItem("Liste Utilisateurs", commandList);
+		sample.addItem("Liste Services", commandService);
+		sample.addItem("Compte de résultat", compta);	
 		
 		return sample;
 		
