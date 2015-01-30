@@ -18,6 +18,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
@@ -31,6 +32,11 @@ public class InterventionJour extends CustomComponent implements View {
 		Date dateJour = new Date();		
 		VerticalLayout mainLayout = new VerticalLayout();
 		this.setCompositionRoot(mainLayout);
+		MenuView sample = new MenuView();
+		
+		MenuBar menu = sample.getMenu();
+		mainLayout.addComponent(menu);
+		
 		Label lab = new Label("Intervention du jour (" + ContextApplication.formatDate(dateJour) + ")");
 		mainLayout.addComponent(lab);
 		

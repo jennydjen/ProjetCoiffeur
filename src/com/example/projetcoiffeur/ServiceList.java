@@ -13,6 +13,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
 
 @CDIView (value="serviceList")
@@ -25,6 +26,9 @@ public class ServiceList extends CustomComponent implements View {
 	public ServiceList(ServiceEJBInterface serviceListe) {
 		VerticalLayout mainLayout = new VerticalLayout();
 		this.setCompositionRoot(mainLayout);
+		MenuView sample = new MenuView();
+		MenuBar menu = sample.getMenu();
+		mainLayout.addComponent(menu);
 		Label lab = new Label("Ecran des services");
 		mainLayout.addComponent(lab);
 		

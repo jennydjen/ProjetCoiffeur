@@ -10,5 +10,5 @@ create table Intervention(
 ALTER TABLE Intervention ADD COLUMN etat int;
 ALTER TABLE Intervention DROP COLUMN date_intervention;
 ALTER TABLE Intervention ADD COLUMN date_intervention TIMESTAMP;
-ALTER TABLE Intervention DROP COLUMN commentaire;
+ALTER TABLE Intervention DROP COLUMN commenaire;
 ALTER TABLE Intervention ADD COLUMN commentaire varchar(250);
