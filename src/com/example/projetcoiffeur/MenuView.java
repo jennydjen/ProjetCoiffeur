@@ -35,11 +35,19 @@ public class MenuView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("interventionJour");
 			}
 		};
+		
+		MenuBar.Command compta = new Command() {
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				// TODO Auto-generated method stub
+				UI.getCurrent().getNavigator().navigateTo("operationList");
+			}
+		};
+		
 		sample.addItem("Interventions du jour", InterventionJour);
 		sample.addItem("Liste Utilisateur", commandList);
 		sample.addItem("Liste Service", commandService);
-		
-		
+		sample.addItem("Compte de résultat", compta);		
 		
 		return sample;
 		
