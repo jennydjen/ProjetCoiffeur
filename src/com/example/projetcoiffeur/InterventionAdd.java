@@ -31,7 +31,7 @@ import com.vaadin.ui.UI;
 public class InterventionAdd extends CustomComponent implements View {
 	
 	@Inject
-	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb, ServiceEJBInterface serviceejb){
+	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb){
 		
 		FormLayout layout = new FormLayout();
 		layout.setMargin(true);
@@ -61,28 +61,28 @@ public class InterventionAdd extends CustomComponent implements View {
 		comboClient.addItems(clientejb.findAllContact());
 		layout.addComponent(comboClient);
 		
-		TwinColSelect Twinservice = new TwinColSelect();
-		Twinservice.addItems(serviceejb.findAllService());
-		Twinservice.setNullSelectionAllowed(true);
-		Twinservice.setMultiSelect(true);
-		Twinservice.setImmediate(true);
-		Twinservice.setLeftColumnCaption("Services Disponibles");
-		Twinservice.setRightColumnCaption("Services Séléctionnés");
-		
-		Twinservice.addValueChangeListener(new ValueChangeListener() {
-            @Override
-            public void valueChange(final ValueChangeEvent event) {
-                final String valueString = String.valueOf(event.getProperty()
-                        .getValue());
-                Notification.show("Value changed:", valueString,
-                        Type.TRAY_NOTIFICATION);
-            }
-
-
-        });
-	    
-		layout.addComponent(Twinservice);
-		
+//		TwinColSelect Twinservice = new TwinColSelect();
+//		Twinservice.addItems(serviceejb.findAllService());
+//		Twinservice.setNullSelectionAllowed(true);
+//		Twinservice.setMultiSelect(true);
+//		Twinservice.setImmediate(true);
+//		Twinservice.setLeftColumnCaption("Services Disponibles");
+//		Twinservice.setRightColumnCaption("Services Séléctionnés");
+//		
+//		Twinservice.addValueChangeListener(new ValueChangeListener() {
+//            @Override
+//            public void valueChange(final ValueChangeEvent event) {
+//                final String valueString = String.valueOf(event.getProperty()
+//                        .getValue());
+//                Notification.show("Value changed:", valueString,
+//                        Type.TRAY_NOTIFICATION);
+//            }
+//
+//
+//        });
+//	    
+//		layout.addComponent(Twinservice);
+//		
 		
 		Button buttonAdd = new Button("Ajouter");
 		layout.addComponent(buttonAdd);
