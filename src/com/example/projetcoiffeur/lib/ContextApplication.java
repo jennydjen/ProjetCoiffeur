@@ -8,7 +8,7 @@ public class ContextApplication {
 	public static String LOGIN = "admin";
 	public static String PASSWORD = "admin";
 	private static final SimpleDateFormat format = new SimpleDateFormat(
-			"DD/MM/YYYY");
+			"dd/MM/yyyy");
 
 	public static String formatDate(Date date) {
 		return format.format(date);
