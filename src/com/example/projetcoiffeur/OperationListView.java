@@ -12,10 +12,12 @@ import com.example.projetcoiffeur.EJB.interfaces.OperationEJBInterface;
 import com.example.projetcoiffeur.entity.Operation;
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
 import com.example.projetcoiffeur.lib.ContextApplication;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Item;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -35,14 +37,19 @@ import com.vaadin.ui.themes.ValoTheme;
 public class OperationListView extends CustomComponent implements View {
 
 	private static final long serialVersionUID = 1L;
+	private Date debutDate, finDate;
+	private Table tableDepense,tableRecette, tableResultat, tableOperation;
 
 	@Inject
 	public OperationListView(OperationEJBInterface ejbOperation) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		Date debutDate = calendar.getTime();
-		calendar.set(Calendar.DAY_OF_MONTH, 31);
-		Date finDate = calendar.getTime();
+		if (debutDate == null && finDate == null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
+			debutDate = calendar.getTime();
+
+			calendar.set(Calendar.DAY_OF_MONTH, 31);
+			finDate = calendar.getTime();
+		}
 
 		VerticalLayout mainLayout = new VerticalLayout();
 		mainLayout.setMargin(true);
@@ -61,14 +68,14 @@ public class OperationListView extends CustomComponent implements View {
 		FormLayout layoutDateDebut = new FormLayout();
 		layoutDate.addComponent(layoutDateDebut);
 
-		PopupDateField datePickerDebut = new PopupDateField("Du");
+		PopupDateField datePickerDebut = new PopupDateField("Du ");
 		datePickerDebut.setValue(debutDate);
 		layoutDateDebut.addComponent(datePickerDebut);
 
 		FormLayout layoutDateFin = new FormLayout();
 		layoutDate.addComponent(layoutDateFin);
 
-		PopupDateField datePickerFin = new PopupDateField(" au");
+		PopupDateField datePickerFin = new PopupDateField(" au ");
 		datePickerFin.setValue(finDate);
 		layoutDateFin.addComponent(datePickerFin);
 
@@ -76,7 +83,17 @@ public class OperationListView extends CustomComponent implements View {
 		layoutDate.addComponent(layoutBouton);
 
 		Button buttonGenerer = new Button("Générer");
-		buttonGenerer.setEnabled(false);
+		buttonGenerer.addClickListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				debutDate = datePickerDebut.getValue();
+				finDate = datePickerFin.getValue();
+
+				updateTableauOngletRecap(ejbOperation);
+				updateTableauOngletOperation(ejbOperation);				
+				
+				getUI().getNavigator().navigateTo("operationList");
+			}
+		});
 		layoutBouton.addComponent(buttonGenerer);
 
 		Button buttonAjouter = new Button("Ajouter opération");
@@ -110,25 +127,37 @@ public class OperationListView extends CustomComponent implements View {
 			Date debutDate, Date finDate) {
 		VerticalLayout compteResultatLayout = new VerticalLayout();
 
+		HorizontalLayout depenseRecetteLayout = new HorizontalLayout();
+
 		// Un tableau contenant les types et sommes de toutes les dépenses sur
 		// la période données
-		Table tableDepense = new Table("Dépenses");
+		tableDepense = new Table("Dépenses");
 		tableDepense.addContainerProperty("Compte", Integer.class, null);
 		tableDepense.addContainerProperty("Intitulé du compte", String.class,
 				null);
 		tableDepense.addContainerProperty("Montant", Double.class, null);
 
-		for (TypeCompte tp : TypeCompte.getTypeDepenses()) {
-			Object newItemId = tableDepense.addItem();
-			Item row1 = tableDepense.getItem(newItemId);
-			row1.getItemProperty("Compte").setValue(tp.getId_compte());
-			row1.getItemProperty("Intitulé du compte").setValue(tp.toString());
-			row1.getItemProperty("Montant").setValue(
-					ejbOperation.getMontantByTypeAndPeriod(tp, debutDate,
-							finDate));
-		}
+		depenseRecetteLayout.addComponent(tableDepense);
 
-		compteResultatLayout.addComponent(tableDepense);
+		tableRecette = new Table("Recettes");
+		tableRecette.addContainerProperty("Compte", Integer.class, null);
+		tableRecette.addContainerProperty("Intitulé du compte", String.class,
+				null);
+		tableRecette.addContainerProperty("Montant", Double.class, null);
+
+		depenseRecetteLayout.addComponent(tableRecette);
+
+		compteResultatLayout.addComponent(depenseRecetteLayout);
+
+		tableResultat = new Table("");
+		tableResultat.addContainerProperty("Intitulé", String.class, null);
+		tableResultat.addContainerProperty("Montant", Double.class, null);
+		tableResultat.setHeight(155, Unit.PIXELS);
+
+		compteResultatLayout.addComponent(tableResultat);
+
+		updateTableauOngletRecap(ejbOperation);
+		
 		return compteResultatLayout;
 	}
 
@@ -136,15 +165,67 @@ public class OperationListView extends CustomComponent implements View {
 			Date debutDate, Date finDate) {
 		VerticalLayout operationLayout = new VerticalLayout();
 
-		List<Operation> operations = ejbOperation.findAll(debutDate, finDate);
-
-		Table tableOperation = new Table();
-		tableOperation.setContainerDataSource(CollectionContainer
-				.fromBeans(operations));
-
+		tableOperation = new Table();
 		operationLayout.addComponent(tableOperation);
 
+		updateTableauOngletOperation(ejbOperation);
+		
 		return operationLayout;
 	}
 
+	private void updateTableauOngletRecap(OperationEJBInterface ejbOperation){
+		tableDepense.removeAllItems();
+		tableRecette.removeAllItems();
+		tableResultat.removeAllItems();
+		
+		double totalDepense = 0;
+
+		for (TypeCompte tp : TypeCompte.getTypeDepenses()) {
+			Object newItemId = tableDepense.addItem();
+			Item row1 = tableDepense.getItem(newItemId);
+			row1.getItemProperty("Compte").setValue(tp.getId_compte());
+			row1.getItemProperty("Intitulé du compte").setValue(tp.toString());
+			double depense = ejbOperation.getMontantByTypeAndPeriod(tp,
+					debutDate, finDate);
+			totalDepense += depense;
+
+			row1.getItemProperty("Montant").setValue(depense);
+		}
+		
+		double totalRecette = 0;
+
+		for (TypeCompte tp : TypeCompte.getTypeRecettes()) {
+			Object newItemId = tableRecette.addItem();
+			Item row1 = tableRecette.getItem(newItemId);
+			row1.getItemProperty("Compte").setValue(tp.getId_compte());
+			row1.getItemProperty("Intitulé du compte").setValue(tp.toString());
+
+			double recette = ejbOperation.getMontantByTypeAndPeriod(tp,
+					debutDate, finDate);
+			totalRecette += recette;
+
+			row1.getItemProperty("Montant").setValue(recette);
+		}
+		
+		Object newItemId = tableResultat.addItem();
+		Item row1 = tableResultat.getItem(newItemId);
+		row1.getItemProperty("Intitulé").setValue("Total des Charges");
+		row1.getItemProperty("Montant").setValue(totalDepense);
+
+		newItemId = tableResultat.addItem();
+		row1 = tableResultat.getItem(newItemId);
+		row1.getItemProperty("Intitulé").setValue("Total des Produits");
+		row1.getItemProperty("Montant").setValue(totalRecette);
+
+		newItemId = tableResultat.addItem();
+		row1 = tableResultat.getItem(newItemId);
+		row1.getItemProperty("Intitulé").setValue("Résultat de L'exercice");
+		row1.getItemProperty("Montant").setValue(totalRecette - totalDepense);
+	}
+	
+	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation){
+		List<Operation> operations = ejbOperation.findAll(debutDate, finDate);
+		tableOperation.setContainerDataSource(CollectionContainer
+				.fromBeans(operations));
+	}
 }
