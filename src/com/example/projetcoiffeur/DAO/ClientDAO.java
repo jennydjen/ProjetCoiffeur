@@ -26,7 +26,7 @@ public class ClientDAO implements ClientDAOInterface{
 	@Override
 	public Client update(Client t) {
 		
-		return this.em.merge(t);
+		return em.merge(t);
 	}
 
 	@Override
@@ -35,11 +35,21 @@ public class ClientDAO implements ClientDAOInterface{
 		Client t= this.em.find(Client.class, id);
 		return t;
 	}
-
+	/**
+	 * Changement de l'état du client ( actif / Inactif ) 
+	 * @param id
+	 */
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-		
+		Client client = find(id);
+		//1 = inactif
+		//0 = actif
+		if (client.isInactif()){
+			client.setInactif(false);
+		}else{
+			client.setInactif(true);
+		}
 	}
 	
 	/**

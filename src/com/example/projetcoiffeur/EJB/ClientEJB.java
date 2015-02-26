@@ -36,7 +36,7 @@ public class ClientEJB implements ClientEJBInterface {
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-		
+		clientDAO.delete(id);
 	}
 
 	@Override
