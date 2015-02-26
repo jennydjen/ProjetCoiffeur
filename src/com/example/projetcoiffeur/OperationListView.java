@@ -11,13 +11,12 @@ import org.vaadin.data.collectioncontainer.CollectionContainer;
 import com.example.projetcoiffeur.EJB.interfaces.OperationEJBInterface;
 import com.example.projetcoiffeur.entity.Operation;
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
-import com.example.projetcoiffeur.lib.ContextApplication;
-import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -114,7 +113,6 @@ public class OperationListView extends CustomComponent implements View {
 				"Les opérations");
 
 		mainLayout.addComponent(tabSheet);
-
 	}
 
 	@Override
@@ -165,7 +163,32 @@ public class OperationListView extends CustomComponent implements View {
 			Date debutDate, Date finDate) {
 		VerticalLayout operationLayout = new VerticalLayout();
 
+		Button buttonSuppression = new Button("Suppression opération");
+		buttonSuppression.setEnabled(false);
+		buttonSuppression.addClickListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				long id = ((Operation) tableOperation.getValue()).getId();
+				ConfirmationWindow window = new ConfirmationWindow("l'operation", ejbOperation, id);
+				getUI().addWindow(window);				
+				window.setVisible(true);
+				window.isVisible();
+			}
+		});
+		operationLayout.addComponent(buttonSuppression);
+		
 		tableOperation = new Table();
+		tableOperation.addValueChangeListener(new ValueChangeListener() {
+			@Override
+			public void valueChange(final ValueChangeEvent event) {
+				if(tableOperation.getValue() != null){
+					buttonSuppression.setEnabled(true);
+				}else{
+					buttonSuppression.setEnabled(false);
+				}
+			}
+			});
+		tableOperation.setSelectable(true);
+
 		operationLayout.addComponent(tableOperation);
 
 		updateTableauOngletOperation(ejbOperation);

@@ -22,9 +22,11 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Notification.Type;
 
 @CDIView(value = "ajouterOperation")
 public class OperationAddView extends CustomComponent implements View {
@@ -185,7 +187,8 @@ public class OperationAddView extends CustomComponent implements View {
 					operation.setClient((Client) clientCombo.getValue());
 					ejbOperation.create(operation);
 
-					getUI().getNavigator().navigateTo("operationList");
+					Notification.show("Opération correctement ajouté !", Type.TRAY_NOTIFICATION);
+					getUI().getNavigator().navigateTo("operationList");					
 				}
 
 			}
