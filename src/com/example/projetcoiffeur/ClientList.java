@@ -6,39 +6,23 @@ import javax.inject.Inject;
 
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
-import com.example.projetcoiffeur.EJB.ClientEJB;
 import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.entity.Client;
-import com.google.gwt.i18n.client.Messages.Example;
-import com.google.gwt.user.client.ui.Grid;
 import com.vaadin.cdi.CDIView;
-import com.vaadin.data.Container;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ClientConnector;
-import com.vaadin.server.ClientConnector.AttachEvent;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupView;
-import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.MenuBar.Command;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.themes.ValoTheme;
+
 
 @CDIView ( value ="clientList")
 public class ClientList extends CustomComponent implements View{
