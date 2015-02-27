@@ -6,7 +6,9 @@ import javax.inject.Inject;
 
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
+import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.EJB.interfaces.InterventionEJBInterface;
+import com.example.projetcoiffeur.entity.Client;
 import com.example.projetcoiffeur.entity.Intervention;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
@@ -62,14 +64,32 @@ public class InterventionList extends CustomComponent implements View{
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				long idTable = ((Intervention) interventionTable.getValue()).getId();
+				//System.out.println(idTable);
+				InterventionUpdate update = new InterventionUpdate( ejbIntervention, idTable);
+				getUI().setContent(update);
 				
 			}
 			
+
+			
+		});
+		
+		Button buttonsupprimer = new Button("Supprimer");		
+		layouthoz.addComponent(buttonsupprimer);	
+		buttonsupprimer.addClickListener(new Button.ClickListener(){
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 			
 		List<Intervention> interventions = ejbIntervention.findAll();
 		
 		interventionTable = new InterventionTable(CollectionContainer.fromBeans(interventions));
+		interventionTable.setSelectable(true);
 		mainLayout.addComponent(interventionTable);
 		
 		
@@ -82,6 +102,12 @@ public class InterventionList extends CustomComponent implements View{
 		// TODO Auto-generated method stub
 		
 	}
-	
+	public InterventionTable getTable( InterventionEJBInterface ejbIntervention){
+		VerticalLayout layoutList = new VerticalLayout();
+		
+		
+		return interventionTable;
+		
+	}
 
 }

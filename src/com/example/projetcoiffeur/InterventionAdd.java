@@ -31,7 +31,7 @@ public class InterventionAdd extends CustomComponent implements View {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Inject
+	//@Inject
 	public InterventionAdd(InterventionEJBInterface ejbIntervention, ClientEJBInterface clientejb){
 		
 		FormLayout layout = new FormLayout();
@@ -100,7 +100,7 @@ public class InterventionAdd extends CustomComponent implements View {
 
 					ejbIntervention.create(intervention);
 					Notification.show("Intervention Ajouté Correctement !", Type.TRAY_NOTIFICATION);
-					UI.getCurrent().getNavigator().navigateTo("InterventionList");
+					UI.getCurrent().getNavigator().navigateTo("interventionList");
 					
 				}catch (Exception e) {
 					

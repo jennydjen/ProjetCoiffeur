@@ -31,7 +31,7 @@ public class InterventionDAO implements InterventionDAOInterface {
 	@Override
 	public Intervention update(Intervention t) {
 		
-		return this.em.merge(t);
+		return em.merge(t);
 	}
 
 	@Override
