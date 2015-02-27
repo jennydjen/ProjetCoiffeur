@@ -59,6 +59,7 @@ public class OperationAddView extends CustomComponent implements View {
 		mainLayout.addComponent(clientCombo);
 
 		TextField descriptionTextField = new TextField("Description");
+		descriptionTextField.setRequired(true);
 		mainLayout.addComponent(descriptionTextField);
 
 		TextField montanTextFied = new TextField("Montant");
@@ -109,6 +110,14 @@ public class OperationAddView extends CustomComponent implements View {
 				} else {
 					datePicker.setInputPrompt(null);
 					datePicker.setComponentError(null);
+				}
+				if(descriptionTextField.getValue() == null || descriptionTextField.getValue().replace(" ", "").isEmpty()){
+					isComplet = false;
+					descriptionTextField.setInputPrompt("La description est incorrecte.");
+					descriptionTextField.setComponentError(new UserError("La description est incorrecte."));
+				}else{
+					descriptionTextField.setInputPrompt(null);
+					descriptionTextField.setComponentError(null);
 				}
 				if (typePaimentCombo.getValue() == null) {
 					isComplet = false;

@@ -9,8 +9,10 @@ import javax.inject.Inject;
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
 import com.example.projetcoiffeur.EJB.interfaces.OperationEJBInterface;
+import com.example.projetcoiffeur.entity.Client;
 import com.example.projetcoiffeur.entity.Operation;
 import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
+import com.example.projetcoiffeur.lib.ContextApplication;
 import com.vaadin.cdi.CDIView;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -163,7 +165,7 @@ public class OperationListView extends CustomComponent implements View {
 			Date debutDate, Date finDate) {
 		VerticalLayout operationLayout = new VerticalLayout();
 
-		Button buttonSuppression = new Button("Suppression opération");
+		Button buttonSuppression = new Button("Supprimer opération");
 		buttonSuppression.setEnabled(false);
 		buttonSuppression.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
@@ -171,12 +173,20 @@ public class OperationListView extends CustomComponent implements View {
 				ConfirmationWindow window = new ConfirmationWindow("l'operation", ejbOperation, id);
 				getUI().addWindow(window);				
 				window.setVisible(true);
-				window.isVisible();
 			}
 		});
 		operationLayout.addComponent(buttonSuppression);
 		
 		tableOperation = new Table();
+		tableOperation.addContainerProperty("Code Compta", Integer.class, null);
+		tableOperation.addContainerProperty("Date", String.class,
+				null);
+		tableOperation.addContainerProperty("Intitulé", String.class, null);
+		tableOperation.addContainerProperty("Moyen de paiement", Enum.class, null);
+		tableOperation.addContainerProperty("N° Facture", String.class, null);
+		tableOperation.addContainerProperty("Client", Client.class, null);
+		tableOperation.addContainerProperty("Débit", Double.class, null);
+		tableOperation.addContainerProperty("Crédit", Double.class, null);
 		tableOperation.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(final ValueChangeEvent event) {
@@ -184,7 +194,7 @@ public class OperationListView extends CustomComponent implements View {
 					buttonSuppression.setEnabled(true);
 				}else{
 					buttonSuppression.setEnabled(false);
-				}
+				}				
 			}
 			});
 		tableOperation.setSelectable(true);
@@ -248,7 +258,21 @@ public class OperationListView extends CustomComponent implements View {
 	
 	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation){
 		List<Operation> operations = ejbOperation.findAll(debutDate, finDate);
-		tableOperation.setContainerDataSource(CollectionContainer
-				.fromBeans(operations));
+				
+		for (Operation o : operations) {
+			Object newItemId = tableOperation.addItem();
+			Item row1 = tableOperation.getItem(newItemId);
+			row1.getItemProperty("Code Compta").setValue(o.getType().getId_compte());
+			row1.getItemProperty("Date").setValue(ContextApplication.formatDate(o.getDate()));
+			row1.getItemProperty("Intitulé").setValue(o.getDescription());
+			row1.getItemProperty("Moyen de paiement").setValue(o.getPaiement());
+			row1.getItemProperty("N° Facture").setValue(o.getNumeroFacture());
+			row1.getItemProperty("Client").setValue(o.getClient());
+			if(!o.getType().isRecette()){
+				row1.getItemProperty("Débit").setValue(o.getPrix());
+			}else{
+				row1.getItemProperty("Crédit").setValue(o.getPrix());
+			}
+		}
 	}
 }
