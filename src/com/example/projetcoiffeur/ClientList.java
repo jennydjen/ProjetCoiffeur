@@ -102,11 +102,13 @@ public class ClientList extends CustomComponent implements View{
 				long idTable = ((Client) clientTable.getValue()).getId();
 				//System.out.println(idTable);
 				ClientUpdate update = new ClientUpdate( clientService, idTable);
-				getUI().setContent(update);
-		
+				getUI().addWindow(update);
+				update.setVisible(true);
+				
 				
 			}
 		});
+		ModifButton.setEnabled(false);
 		
 		mainLayout.addComponent(HLayout);
 		List<Client> clients = clientService.findAllContact();
@@ -119,8 +121,10 @@ public class ClientList extends CustomComponent implements View{
 			public void valueChange(final ValueChangeEvent event) {
 				if(clientTable.getValue() != null){
 					buttonSuppr.setEnabled(true);
+					ModifButton.setEnabled(true);
 				}else{
 					buttonSuppr.setEnabled(false);
+					ModifButton.setEnabled(false);
 				}
 			}
 			});
@@ -129,16 +133,17 @@ public class ClientList extends CustomComponent implements View{
 		clientTable.setColumnHeaders(new String[]{"Nom","Prenom","Adresse","Telephone"});
 		
 		
-		/*for (Component client : clientTable) {
+		for (Component client : clientTable) {
 			System.out.println(client.isVisible());
 			if(((Client) client).isInactif()){
+				
 				//System.out.println(((Client) client).isInactif());
 				client.setVisible(false);
 				
 			}else{
 				client.setVisible(true);
 			}
-		}*/
+		}
 		mainLayout.addComponent(clientTable);
 		
 	}

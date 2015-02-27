@@ -1,7 +1,10 @@
 package com.example.projetcoiffeur;
 
+import javax.inject.Inject;
+
 import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.entity.Client;
+import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -15,17 +18,19 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.Window;
 
-public class ClientUpdate extends CustomComponent implements View{
+public class ClientUpdate  extends Window{
 
-	
-public ClientUpdate(ClientEJBInterface clientService,long id){
 		
+	public ClientUpdate(ClientEJBInterface clientService,long id){
+		setModal(true);
+		setResizable(false);
 		FormLayout layout = new FormLayout();
 		Client client =clientService.find(id);
 		
 		layout.setMargin(true);
-		setCompositionRoot(layout);
+		
 		Label lab = new Label("<h2>Modification client</h2>", ContentMode.HTML);
 		layout.addComponent(lab);
 		
@@ -63,8 +68,8 @@ public ClientUpdate(ClientEJBInterface clientService,long id){
 					
 					Notification.show("Client modifié correctement !", Type.TRAY_NOTIFICATION);
 					
-					ClientList list = new ClientList(clientService);
-					getUI().setContent(list);
+					close();
+					
 					
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -80,24 +85,21 @@ public ClientUpdate(ClientEJBInterface clientService,long id){
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				ClientList list = new ClientList(clientService);
-				getUI().setContent(list);
+			
+				close();
 			//	UI.getCurrent().getNavigator().navigateTo("clientList");
 			}
 		});
 		
-	}
-	
-	
-	
-	
-	
-	@Override
-	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		
+		setContent(layout);
+		
+		setVisible(true);
 		
 	}
-
+	
+	
+	
 	
 	
 }
