@@ -36,11 +36,12 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @CDIView(value = "operationList")
 public class OperationListView extends CustomComponent implements View {
-
+	
 	private static final long serialVersionUID = 1L;
 	private Date debutDate, finDate;
 	private Table tableDepense,tableRecette, tableResultat, tableOperation;
-
+	private List<Operation> operations;
+	
 	@Inject
 	public OperationListView(OperationEJBInterface ejbOperation) {
 		if (debutDate == null && finDate == null) {
@@ -169,7 +170,8 @@ public class OperationListView extends CustomComponent implements View {
 		buttonSuppression.setEnabled(false);
 		buttonSuppression.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				long id = ((Operation) tableOperation.getValue()).getId();
+				int indexSelected = (int) tableOperation.getValue() - 1;
+				long id = operations.get(indexSelected).getId();
 				ConfirmationWindow window = new ConfirmationWindow("l'operation", ejbOperation, id);
 				getUI().addWindow(window);				
 				window.setVisible(true);
@@ -257,7 +259,7 @@ public class OperationListView extends CustomComponent implements View {
 	}
 	
 	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation){
-		List<Operation> operations = ejbOperation.findAll(debutDate, finDate);
+		operations = ejbOperation.findAll(debutDate, finDate);
 				
 		for (Operation o : operations) {
 			Object newItemId = tableOperation.addItem();
