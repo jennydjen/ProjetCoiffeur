@@ -106,7 +106,7 @@ public class OperationListView extends CustomComponent implements View {
 		buttonAjouter.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 				OperationAddChangeWindow window = new OperationAddChangeWindow(ejbOperation,
-						ejbClient, -1);
+						ejbClient,OperationListView.this, -1);
 				getUI().addWindow(window);
 				window.setVisible(true);
 			}
@@ -183,7 +183,7 @@ public class OperationListView extends CustomComponent implements View {
 				int indexSelected = (int) tableOperation.getValue() - 1;
 				long id = operations.get(indexSelected).getId();
 				OperationAddChangeWindow window = new OperationAddChangeWindow(ejbOperation,
-						ejbClient, id);
+						ejbClient,OperationListView.this, id);
 				getUI().addWindow(window);
 				window.setVisible(true);
 			}
@@ -234,6 +234,11 @@ public class OperationListView extends CustomComponent implements View {
 		updateTableauOngletOperation(ejbOperation);
 
 		return operationLayout;
+	}
+	
+	public void refreshPage(OperationEJBInterface ejbOperation){
+		updateTableauOngletRecap(ejbOperation);
+		updateTableauOngletOperation(ejbOperation);		
 	}
 
 	private void updateTableauOngletRecap(OperationEJBInterface ejbOperation) {
@@ -287,6 +292,8 @@ public class OperationListView extends CustomComponent implements View {
 	}
 
 	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation) {
+		System.out.println("Remove ALL "+tableOperation.removeAllItems());
+		
 		operations = ejbOperation.findAll(debutDate, finDate);
 
 		for (Operation o : operations) {

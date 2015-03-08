@@ -30,9 +30,10 @@ public class OperationAddChangeWindow extends Window {
 	private static final long serialVersionUID = 1L;
 	private Operation myOperation = null;
 	private Map<Long, Client> mapClient = new HashMap<Long, Client>();
+	private OperationListView operationView;
 
 	public OperationAddChangeWindow(OperationEJBInterface ejbOperation,
-			ClientEJBInterface ejbClient, long id) {
+			ClientEJBInterface ejbClient, OperationListView operationView, long id) {
 		createClientMap(ejbClient);
 		
 		setWidth(450.0f, Unit.PIXELS);
@@ -242,7 +243,7 @@ public class OperationAddChangeWindow extends Window {
 						Notification.show("Opération correctement modifié !",
 								Type.TRAY_NOTIFICATION);
 					}
-					
+					operationView.refreshPage(ejbOperation);
 					getUI().getNavigator().navigateTo("operationList");
 					close();
 				}
