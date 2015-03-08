@@ -1,4 +1,4 @@
-package com.example.projetcoiffeur;
+package com.example.projetcoiffeur.view.compteResultat;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -8,6 +8,9 @@ import javax.inject.Inject;
 
 import org.vaadin.data.collectioncontainer.CollectionContainer;
 
+import com.example.projetcoiffeur.ConfirmationWindow;
+import com.example.projetcoiffeur.MenuView;
+import com.example.projetcoiffeur.EJB.interfaces.ClientEJBInterface;
 import com.example.projetcoiffeur.EJB.interfaces.OperationEJBInterface;
 import com.example.projetcoiffeur.entity.Client;
 import com.example.projetcoiffeur.entity.Operation;
@@ -36,14 +39,15 @@ import com.vaadin.ui.themes.ValoTheme;
 
 @CDIView(value = "operationList")
 public class OperationListView extends CustomComponent implements View {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Date debutDate, finDate;
-	private Table tableDepense,tableRecette, tableResultat, tableOperation;
+	private Table tableDepense, tableRecette, tableResultat, tableOperation;
 	private List<Operation> operations;
-	
+
 	@Inject
-	public OperationListView(OperationEJBInterface ejbOperation) {
+	public OperationListView(OperationEJBInterface ejbOperation,
+			ClientEJBInterface ejbClient) {
 		if (debutDate == null && finDate == null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -91,8 +95,8 @@ public class OperationListView extends CustomComponent implements View {
 				finDate = datePickerFin.getValue();
 
 				updateTableauOngletRecap(ejbOperation);
-				updateTableauOngletOperation(ejbOperation);				
-				
+				updateTableauOngletOperation(ejbOperation);
+
 				getUI().getNavigator().navigateTo("operationList");
 			}
 		});
@@ -101,7 +105,10 @@ public class OperationListView extends CustomComponent implements View {
 		Button buttonAjouter = new Button("Ajouter opération");
 		buttonAjouter.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo("ajouterOperation");
+				OperationAddChangeWindow window = new OperationAddChangeWindow(ejbOperation,
+						ejbClient, -1);
+				getUI().addWindow(window);
+				window.setVisible(true);
 			}
 		});
 		mainLayout.addComponent(buttonAjouter);
@@ -112,7 +119,8 @@ public class OperationListView extends CustomComponent implements View {
 
 		tabSheet.addTab(getCompteResultat(ejbOperation, debutDate, finDate),
 				"Récap");
-		tabSheet.addTab(getTabOperation(ejbOperation, debutDate, finDate),
+		tabSheet.addTab(
+				getTabOperation(ejbOperation, ejbClient, debutDate, finDate),
 				"Les opérations");
 
 		mainLayout.addComponent(tabSheet);
@@ -158,13 +166,29 @@ public class OperationListView extends CustomComponent implements View {
 		compteResultatLayout.addComponent(tableResultat);
 
 		updateTableauOngletRecap(ejbOperation);
-		
+
 		return compteResultatLayout;
 	}
 
 	private Component getTabOperation(OperationEJBInterface ejbOperation,
-			Date debutDate, Date finDate) {
+			ClientEJBInterface ejbClient, Date debutDate, Date finDate) {
 		VerticalLayout operationLayout = new VerticalLayout();
+
+		HorizontalLayout buttonLayout = new HorizontalLayout();
+
+		Button buttonModifier = new Button("Modifier opération");
+		buttonModifier.setEnabled(false);
+		buttonModifier.addClickListener(new Button.ClickListener() {
+			public void buttonClick(ClickEvent event) {
+				int indexSelected = (int) tableOperation.getValue() - 1;
+				long id = operations.get(indexSelected).getId();
+				OperationAddChangeWindow window = new OperationAddChangeWindow(ejbOperation,
+						ejbClient, id);
+				getUI().addWindow(window);
+				window.setVisible(true);
+			}
+		});
+		buttonLayout.addComponent(buttonModifier);
 
 		Button buttonSuppression = new Button("Supprimer opération");
 		buttonSuppression.setEnabled(false);
@@ -172,19 +196,21 @@ public class OperationListView extends CustomComponent implements View {
 			public void buttonClick(ClickEvent event) {
 				int indexSelected = (int) tableOperation.getValue() - 1;
 				long id = operations.get(indexSelected).getId();
-				ConfirmationWindow window = new ConfirmationWindow("l'operation", ejbOperation, id);
-				getUI().addWindow(window);				
+				ConfirmationWindow window = new ConfirmationWindow(
+						"l'operation", ejbOperation, id);
+				getUI().addWindow(window);
 				window.setVisible(true);
 			}
 		});
-		operationLayout.addComponent(buttonSuppression);
-		
+		buttonLayout.addComponent(buttonSuppression);
+		operationLayout.addComponent(buttonLayout);
+
 		tableOperation = new Table();
 		tableOperation.addContainerProperty("Code Compta", Integer.class, null);
-		tableOperation.addContainerProperty("Date", String.class,
-				null);
+		tableOperation.addContainerProperty("Date", String.class, null);
 		tableOperation.addContainerProperty("Intitulé", String.class, null);
-		tableOperation.addContainerProperty("Moyen de paiement", Enum.class, null);
+		tableOperation.addContainerProperty("Moyen de paiement", Enum.class,
+				null);
 		tableOperation.addContainerProperty("N° Facture", String.class, null);
 		tableOperation.addContainerProperty("Client", Client.class, null);
 		tableOperation.addContainerProperty("Débit", Double.class, null);
@@ -192,27 +218,29 @@ public class OperationListView extends CustomComponent implements View {
 		tableOperation.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(final ValueChangeEvent event) {
-				if(tableOperation.getValue() != null){
+				if (tableOperation.getValue() != null) {
 					buttonSuppression.setEnabled(true);
-				}else{
+					buttonModifier.setEnabled(true);
+				} else {
 					buttonSuppression.setEnabled(false);
-				}				
+					buttonModifier.setEnabled(false);
+				}
 			}
-			});
+		});
 		tableOperation.setSelectable(true);
 
 		operationLayout.addComponent(tableOperation);
 
 		updateTableauOngletOperation(ejbOperation);
-		
+
 		return operationLayout;
 	}
 
-	private void updateTableauOngletRecap(OperationEJBInterface ejbOperation){
+	private void updateTableauOngletRecap(OperationEJBInterface ejbOperation) {
 		tableDepense.removeAllItems();
 		tableRecette.removeAllItems();
 		tableResultat.removeAllItems();
-		
+
 		double totalDepense = 0;
 
 		for (TypeCompte tp : TypeCompte.getTypeDepenses()) {
@@ -226,7 +254,7 @@ public class OperationListView extends CustomComponent implements View {
 
 			row1.getItemProperty("Montant").setValue(depense);
 		}
-		
+
 		double totalRecette = 0;
 
 		for (TypeCompte tp : TypeCompte.getTypeRecettes()) {
@@ -241,7 +269,7 @@ public class OperationListView extends CustomComponent implements View {
 
 			row1.getItemProperty("Montant").setValue(recette);
 		}
-		
+
 		Object newItemId = tableResultat.addItem();
 		Item row1 = tableResultat.getItem(newItemId);
 		row1.getItemProperty("Intitulé").setValue("Total des Charges");
@@ -257,22 +285,24 @@ public class OperationListView extends CustomComponent implements View {
 		row1.getItemProperty("Intitulé").setValue("Résultat de L'exercice");
 		row1.getItemProperty("Montant").setValue(totalRecette - totalDepense);
 	}
-	
-	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation){
+
+	private void updateTableauOngletOperation(OperationEJBInterface ejbOperation) {
 		operations = ejbOperation.findAll(debutDate, finDate);
-				
+
 		for (Operation o : operations) {
 			Object newItemId = tableOperation.addItem();
 			Item row1 = tableOperation.getItem(newItemId);
-			row1.getItemProperty("Code Compta").setValue(o.getType().getId_compte());
-			row1.getItemProperty("Date").setValue(ContextApplication.formatDate(o.getDate()));
+			row1.getItemProperty("Code Compta").setValue(
+					o.getType().getId_compte());
+			row1.getItemProperty("Date").setValue(
+					ContextApplication.formatDate(o.getDate()));
 			row1.getItemProperty("Intitulé").setValue(o.getDescription());
 			row1.getItemProperty("Moyen de paiement").setValue(o.getPaiement());
 			row1.getItemProperty("N° Facture").setValue(o.getNumeroFacture());
 			row1.getItemProperty("Client").setValue(o.getClient());
-			if(!o.getType().isRecette()){
+			if (!o.getType().isRecette()) {
 				row1.getItemProperty("Débit").setValue(o.getPrix());
-			}else{
+			} else {
 				row1.getItemProperty("Crédit").setValue(o.getPrix());
 			}
 		}
