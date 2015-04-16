@@ -18,41 +18,40 @@ import com.example.projetcoiffeur.entity.enumeration.TypeCompte;
 import com.example.projetcoiffeur.entity.enumeration.Type_Paiement;
 
 @Entity
-@NamedQueries(value={
-		@NamedQuery(name="operation.findAll", query="SELECT O FROM Operation O WHERE O.date_operation BETWEEN ?1 AND ?2 ORDER BY O.date_operation"),
-		@NamedQuery(name="operation.findByType", query="SELECT O FROM Operation O WHERE O.type_operation = ?1 AND O.date_operation BETWEEN ?2 AND ?3")
-})
+@NamedQueries(value = {
+		@NamedQuery(name = "operation.findAll", query = "SELECT O FROM Operation O WHERE O.date_operation BETWEEN ?1 AND ?2 ORDER BY O.date_operation"),
+		@NamedQuery(name = "operation.findByType", query = "SELECT O FROM Operation O WHERE O.type_operation = ?1 AND O.date_operation BETWEEN ?2 AND ?3") })
 public class Operation {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private TypeCompte type_operation;
-	
+
 	private String description;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date_operation;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private Type_Paiement type_paiment;
-	
+
 	private String numeroFacture;
-	
-	@JoinColumn(name="id_client")
+
+	@JoinColumn(name = "id_client")
 	private Client client;
-	
+
 	private double prix;
-	
+
 	private String numeroCheque;
-	
+
 	private String nomBanque;
 
 	public Operation() {
 	}
-	
+
 	public TypeCompte getType() {
 		return type_operation;
 	}
@@ -86,7 +85,12 @@ public class Operation {
 	}
 
 	public String getNumeroFacture() {
-		return numeroFacture;
+		if (numeroFacture != null) {
+			return numeroFacture;
+		} else {
+			return "Facture-" + getId();
+		}
+
 	}
 
 	public void setNumeroFacture(String numeroFacture) {
@@ -127,5 +131,5 @@ public class Operation {
 
 	public long getId() {
 		return id;
-	}	
+	}
 }
